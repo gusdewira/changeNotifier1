@@ -23,12 +23,12 @@ class ProductView extends StatelessWidget {
         if (state.isLoading) {
           return LzLoader.bar(message: 'Loading...');
         }
-
+      
         return
             Refreshtor(
               onRefresh: () => state.getTodos(),
               child: LzListView(
-                children: state.todos.generate((item, i) {
+                children: state.produks.generate((item, i) {
                   final key = GlobalKey();
 
                   return InkTouch(
@@ -98,7 +98,7 @@ class FormTodo extends StatelessWidget {
     return Wrapper(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Form Edit Produk'),
+          title: const Text('Form Produk'),
         ),
         body: LzFormList(
           children: [
@@ -141,7 +141,6 @@ class FormTodo extends StatelessWidget {
                         FormMessages(required: {'nama_produk': 'Title harus diisi'}));
         
                 if (form.ok) {
-                  // jika data tidak null, maka update
                   if (data != null) {
                     notifier.update(data!.id!,
                         TodoModel.fromJson({'id': data?.id, ...form.value}));
