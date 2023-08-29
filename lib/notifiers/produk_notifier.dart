@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lazyui/lazyui.dart';
-import '../data/todo_model.dart';
+import '../data/produk_model.dart';
 
 List<Map<String, dynamic>> dataFromServer = [
   {'id': 1, 'nama_produk': 'Mangga', 'harga': 15000, 'stok': 20, 'gambar': 'https://example.com/Grape.jpg'},

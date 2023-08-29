@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lazyui/lazyui.dart';
-import '../data/todo_model.dart';
-import '../notifiers/todo_notofier.dart';
+import '../data/produk_model.dart';
+import '../notifiers/produk_notifier.dart';
 
 class ProductView extends StatelessWidget {
   const ProductView({super.key});
