@@ -28,17 +28,15 @@ class TodoNotifider extends ChangeNotifier {
 
 void search(String query) {
     if (query.isEmpty) {
-      // Jika query kosong, tampilkan semua produk
       produks = List.from(produks);
     } else {
-      // Jika query tidak kosong, filter produk berdasarkan query
       produks = produks.where((item) {
         final lowerCaseQuery = query.toLowerCase();
         final lowerCaseNamaProduk = item.namaProduk!.toLowerCase();
         return lowerCaseNamaProduk.contains(lowerCaseQuery);
       }).toList();
     }
-    notifyListeners(); // Memberi tahu perubahan dalam hasil pencarian
+    notifyListeners();
 }
 
   void add(TodoModel data) {

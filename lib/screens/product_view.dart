@@ -17,7 +17,6 @@ class ProductView extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
-          // Tombol Pencarian
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () {
