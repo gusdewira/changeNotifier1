@@ -17,6 +17,15 @@ class ProductView extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
+          // Tombol Pencarian
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              TextField(onChanged: (query) {
+                notifier.search(query);
+              });
+            },
+          ),
           const Icon(Ti.plus).onPressed(() {
             context.push(FormTodo(notifier: notifier));
           })
@@ -27,71 +36,79 @@ class ProductView extends StatelessWidget {
           return LzLoader.bar(message: 'Loading...');
         }
 
-        return Refreshtor(
-          onRefresh: () => state.getTodos(),
-          child: LzListView(
-            children: state.produks.generate((item, i) {
-              final key = GlobalKey();
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Refreshtor(
+                onRefresh: () => state.getTodos(),
+                child: LzListView(
+                  children: state.produks.generate((item, i) {
+                    final key = GlobalKey();
 
-              return InkTouch(
-                key: key,
-                onTap: () {
-                  DropX.show(key,
-                      options: ['Edit', 'Delete'].options(
-                          icons: [Ti.pencil, Ti.trash],
-                          dangers: [1]), onSelect: (value) {
-                    if (value.option == 'Edit') {
-                      context.push(FormTodo(
-                        notifier: notifier,
-                        data: item,
-                      ));
-                    } else {
-                      LzConfirm(
-                              title: 'Hapus',
-                              type: LzConfirmType.bottomSheet,
-                              message: 'Anda yakin ingin menghapus data ini?',
-                              onConfirm: () => state.delete(item.id!))
-                          .show(context);
-                    }
-                  });
-                },
-                padding: Ei.sym(v: 20),
-                border: Br.only(['t'], except: i == 0),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 80,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius:
-                            BorderRadius.circular(5),
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            'https://e0.pxfuel.com/wallpapers/688/852/desktop-wallpaper-pin-oleh-aury-otaku-di-doraemon-dengan-gambar-doraemon-kartun-yellow-doraemon.jpg',
+                    return InkTouch(
+                      key: key,
+                      onTap: () {
+                        DropX.show(key,
+                            options: ['Edit', 'Delete'].options(
+                                icons: [Ti.pencil, Ti.trash],
+                                dangers: [1]), onSelect: (value) {
+                          if (value.option == 'Edit') {
+                            context.push(FormTodo(
+                              notifier: notifier,
+                              data: item,
+                            ));
+                          } else {
+                            LzConfirm(
+                                title: 'Hapus',
+                                type: LzConfirmType.bottomSheet,
+                                message: 'Anda yakin ingin menghapus data ini?',
+                                onConfirm: () =>
+                                    state.delete(item.id!)).show(context);
+                          }
+                        });
+                      },
+                      padding: Ei.sym(v: 20),
+                      border: Br.only(['t'], except: i == 0),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 80,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(5),
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  '${item.gambar}',
+                                ),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
-                          fit: BoxFit
-                              .cover, 
-                        ),
+                          SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${item.namaProduk}',
+                                style: TextStyle(
+                                    fontSize: 25, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'Rp.${item.harga}',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                    ),
-                    SizedBox(width: 10),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${item.namaProduk}',
-                          style: TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),
-                        ),
-                        Text('Rp.${item.harga}', style: TextStyle(fontWeight: FontWeight.bold),),
-                      ],
-                    ),
-                  ],
+                    );
+                  }),
                 ),
-              );
-            }),
-          ),
+              ),
+            ),
+          ],
         );
       }),
     );
