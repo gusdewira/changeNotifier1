@@ -25,21 +25,6 @@ class TodoNotifider extends ChangeNotifier {
       isLoading = false;
     }
   }
-
-void search(String query) {
-  try {
-    final searchProduks = dataProduk
-        .where((produk) =>
-            produk['nama_produk'].toLowerCase().contains(query.toLowerCase()))
-        .toList();
-
-    produks = searchProduks.map((e) => TodoModel.fromJson(e)).toList();
-    notifyListeners();
-  } catch (e, s) {
-    Errors.check(e, s);
-  }
-}
-
   void add(TodoModel data) {
     try {
       produks.add(data);
