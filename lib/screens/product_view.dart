@@ -106,37 +106,59 @@ class FormTodo extends StatelessWidget {
                 label: 'Nama Produk',
                 hint: 'Masukan Nama Produk',
                 model: forms['nama_produk'],
-                autofocus: true)
+                autofocus: true
+                ),
+                LzForm.input(
+                  label: 'Harga Produk',
+                  hint: 'Masukan Harga Produk',
+                  model: forms['harga'],
+                  autofocus: true
+                ),
+                LzForm.input(
+                  label: 'Stok Produk',
+                  hint: 'Masukan Stok Produk',
+                  model: forms['stok'],
+                  autofocus: true
+                ),
+                LzForm.input(
+                  label: 'gambar Produk',
+                  hint: 'Masukan URL Gambar Produk',
+                  model: forms['gambar'],
+                  autofocus: true
+                ),
           ],
         ),
-        bottomNavigationBar: LzButton(
-            text: 'Submit',
-            onTap: (state) {
-              // validasi form
-              final form = LzForm.validate(forms,
-                  required: ['*'],
-                  messages:
-                      FormMessages(required: {'nama_produk': 'Title harus diisi'}));
 
-              if (form.ok) {
-                // jika data tidak null, maka update
-                if (data != null) {
-                  notifier.update(data!.id!,
-                      TodoModel.fromJson({'id': data!.id, ...form.value}));
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: LzButton(
+              text: 'Submit',
+              onTap: (state) {
+                // validasi form
+                final form = LzForm.validate(forms,
+                    required: ['*'],
+                    messages:
+                        FormMessages(required: {'nama_produk': 'Title harus diisi'}));
+        
+                if (form.ok) {
+                  // jika data tidak null, maka update
+                  if (data != null) {
+                    notifier.update(data!.id!,
+                        TodoModel.fromJson({'id': data?.id, ...form.value}));
+                    context.pop();
+                    return;
+                  }
+        
+                  int id = DateTime.now().millisecondsSinceEpoch;
+                  final payload = {
+                    'id': id,
+                    ...form.value
+                  };
+                  notifier.add(TodoModel.fromJson(payload));
                   context.pop();
-                  return;
                 }
-
-                // generate random id
-                int id = DateTime.now().millisecondsSinceEpoch;
-                final payload = {
-                  'id': id,
-                  ...form.value
-                }; // payload itu sebutan untuk data yang akan dikirim ke server
-                notifier.add(TodoModel.fromJson(payload));
-                context.pop();
-              }
-            }).theme1(),
+              }).theme1(),
+        ),
       ),
     );
   }
